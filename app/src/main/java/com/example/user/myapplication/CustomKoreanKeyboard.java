@@ -9,6 +9,13 @@ import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+
 /**
  * Created by USER on 2016-07-11.
  */
@@ -16,9 +23,28 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
     private Button[] mButton = new Button[25];
 
+    private final String KEYBOARD_CONSONANT = "자음";
+    private final String KEYBOARD_PREVIOUS = "이전";
+    private final String KEYBOARD_NEWINPUT = "새글";
     private final String KEYBOARD_DELETE = "삭제";
+    private final String KEYBOARD_REPEAT = "반복";
     private final String KEYBOARD_SPACE = "공백";
+    private final String KEYBOARD_KOREA = "한글";
+    private final String KEYBOARD_FIRST = "처음";
     private final String KETBOARD_DONE = "엔터";
+
+    /**
+     * 단계
+     * DEPTH_FIRST = 0 : 자음
+     * DEPTH_SECOND = 1 : 자음 + 모음
+     * DEPTH_THIRD = 2 : 자음 + 모음 + 받침
+     */
+    private int mDepth;
+    private final int DEPTH_FIRST = 0;
+    private final int DEPTH_SECOND = 1;
+    private final int DEPTH_THIRD = 2;
+
+    private DBManageMent dbManageMent;
 
     /**
      * TableLayout 을 사용한 CustomKeyboard 화면을 Match 시킨다.
@@ -32,8 +58,20 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
         setFindView(view);
         setOnClick();
+        //setDB();
+
+        Log.i("CustomKey", "onCreateInputView()");
+
+        //copyExcelDataToDatabase();
 
         return view;
+    }
+
+    /**
+     * Custom 한 DB 생성
+     */
+    private void setDB() {
+        dbManageMent = new DBManageMent(CustomKoreanKeyboard.this);
     }
 
     /**
@@ -105,24 +143,105 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                 Log.i("CustomKey", "Test : " + ((Button) view).getText());
 
                 CharSequence charText = ((Button) view).getText();
+                String strText = String.valueOf(charText.charAt(0));
 
-                ic.commitText(String.valueOf(charText.charAt(0)), 1);
+                switchDepth(mDepth, strText);
+        }
+    }
 
-
-
-
+    /**
+     * mDepth 값에 따른 이벤트 switch
+     *
+     * @param depth
+     */
+    private void switchDepth(int depth, String strText) {
+        InputConnection ic = getCurrentInputConnection();
+        switch (depth) {
+            case DEPTH_FIRST:
+                ic.commitText(strText, 1);
+                mDepth++;
+                break;
+            case DEPTH_SECOND:
+                ic.deleteSurroundingText(1, 0);
+                ic.commitText(strText, 1);
+                mDepth++;
+                break;
+            case DEPTH_THIRD:
+                ic.deleteSurroundingText(1, 0);
+                ic.commitText(strText, 1);
+                mDepth = 0;
+                break;
         }
     }
 
     /**
      * 눌리는 버튼에 따라서 키보드의 텍스트 값 변경
      *
-     * @param strButton :  Click Button Text
+     * @param strText :  Click Button Text
      */
-    private void setButtonText(String strButton) {
-        switch(){
+    private void setButtonText(String strText) {
+        switch (strText) {
 
         }
+    }
+
+    /**
+     * assets 폴더에 조재하는 엑셀 파일을 db 에 넣음
+     */
+    private void copyExcelDataToDatabase() {
+
+        Log.i("CustomKey", "copyExcelDataToDatabase()");
+
+        Workbook workbook = null;
+        Sheet sheet = null;
+
+        try {
+            InputStream is = getBaseContext().getResources().getAssets().open("korea_key.xlsx");
+            try {
+                workbook = workbook.getWorkbook(is);
+
+                if (workbook != null) {
+                    sheet = workbook.getSheet(0);
+
+                    if (sheet != null) {
+
+                        int nMaxColumn = 2;
+                        int nRowStartIndex = 0;
+                        int nRowEndIndex = sheet.getColumn(nMaxColumn - 1).length - 1;
+                        int nColumnStartIndex = 0;
+                        int nColumnEndIndex = sheet.getRow(2).length - 1;
+
+                        dbManageMent.open();
+                        for (int nRow = nRowStartIndex; nRow <= nRowEndIndex; nRow++) {
+                            String text_key = sheet.getCell(nColumnStartIndex, nRow).getContents();
+                            String text_content = sheet.getCell(nColumnStartIndex + 1, nRow).getContents();
+                            Log.i("CustomKey", "text_key : " + text_key + " text_content : " + text_content);
+
+                            dbManageMent.createNote(text_key, text_content);
+                        }
+                        dbManageMent.close();
+
+                    } else {
+                        Log.e("CustomKey", "sheet is null");
+                    }
+                } else {
+                    Log.e("CustomKey", "workbook is null");
+                }
+
+            } catch (BiffException e) {
+                e.printStackTrace();
+                Log.e("CustomKey", "Error : " + e.toString());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("CustomKey", "Error : " + e.toString());
+        }
+
+        if (workbook != null) {
+            workbook.close();
+        }
+
     }
 
 }
