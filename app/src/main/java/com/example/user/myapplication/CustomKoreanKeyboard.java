@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
 
+import com.example.user.myapplication.Common.CommonJava;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -59,11 +61,11 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
         setFindView(view);
         setOnClick();
-        //setDB();
+        setDB();
 
-        Log.i("CustomKey", "onCreateInputView()");
+        CommonJava.Loging.i("CustomKey", "onCreateInputView()");
 
-        //copyExcelDataToDatabase();
+        copyExcelDataToDatabase();
 
         return view;
     }
@@ -124,7 +126,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
      */
     @Override
     public void onClick(View view) {
-        Log.i("CustomKey", "View : " + view);
+        CommonJava.Loging.i("CustomKey", "View : " + view);
 
         InputConnection ic = getCurrentInputConnection();
 
@@ -141,7 +143,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                 ic.commitText(" ", 1);
                 break;
             default:
-                Log.i("CustomKey", "Test : " + ((Button) view).getText());
+                CommonJava.Loging.i("CustomKey", "Test : " + ((Button) view).getText());
 
                 CharSequence charText = ((Button) view).getText();
                 String strText = String.valueOf(charText.charAt(0));
@@ -191,13 +193,14 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
      */
     private void copyExcelDataToDatabase() {
 
-        Log.i("CustomKey", "copyExcelDataToDatabase()");
+        CommonJava.Loging.i("CustomKey", "copyExcelDataToDatabase()");
 
         Workbook workbook = null;
         Sheet sheet = null;
 
         try {
-            InputStream is = getBaseContext().getResources().getAssets().open("korea_key.xlsx");
+            InputStream is = getBaseContext().getResources().getAssets().open("korea_key.xls");
+
             try {
                 workbook = workbook.getWorkbook(is);
 
@@ -207,7 +210,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     if (sheet != null) {
 
                         int nMaxColumn = 2;
-                        int nRowStartIndex = 0;
+                        int nRowStartIndex = 1;
                         int nRowEndIndex = sheet.getColumn(nMaxColumn - 1).length - 1;
                         int nColumnStartIndex = 0;
                         int nColumnEndIndex = sheet.getRow(2).length - 1;
@@ -216,27 +219,27 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                         for (int nRow = nRowStartIndex; nRow <= nRowEndIndex; nRow++) {
                             String text_key = sheet.getCell(nColumnStartIndex, nRow).getContents();
                             String text_content = sheet.getCell(nColumnStartIndex + 1, nRow).getContents();
-                            Log.i("CustomKey", "text_key : " + text_key + " text_content : " + text_content);
+                            CommonJava.Loging.i("CustomKey", "text_key : " + text_key + " text_content : " + text_content);
 
                             dbManageMent.createNote(text_key, text_content);
                         }
                         dbManageMent.close();
 
                     } else {
-                        Log.e("CustomKey", "sheet is null");
+                        CommonJava.Loging.e("CustomKey", "sheet is null");
                     }
                 } else {
-                    Log.e("CustomKey", "workbook is null");
+                    CommonJava.Loging.e("CustomKey", "workbook is null");
                 }
 
             } catch (BiffException e) {
                 e.printStackTrace();
-                Log.e("CustomKey", "Error : " + e.toString());
+                CommonJava.Loging.e("CustomKey", "Error : " + e.toString());
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e("CustomKey", "Error : " + e.toString());
+            CommonJava.Loging.e("CustomKey", "Error : " + e.toString());
         }
 
         if (workbook != null) {
