@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㄱ" />
 
         <Button
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㄴ" />
 
         <Button
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㄷ" />
 
         <Button
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㄲ" />
 
         <Button
@@ -50,15 +50,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="한글" />
 
         <Button
             android:id="@+id/button6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="영어"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_round_button"
+            android:text="영어" />
 
     </TableRow>
 
@@ -72,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㄹ" />
 
         <Button
@@ -81,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅁ" />
 
         <Button
@@ -90,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅂ" />
 
         <Button
@@ -99,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㄸ" />
 
         <Button
@@ -108,17 +110,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="공백" />
-            android:text="공백"
-            android:layout_weight="1" />
 
         <Button
             android:id="@+id/button12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="기호"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_round_button"
+            android:text="기호" />
     </TableRow>
 
     <TableRow
@@ -131,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅅ" />
 
         <Button
@@ -140,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅇ" />
 
         <Button
@@ -149,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅈ" />
 
         <Button
@@ -158,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅃ" />
 
         <Button
@@ -167,17 +169,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="삭제" />
-            android:text="삭제"
-            android:layout_weight="1" />
 
         <Button
             android:id="@+id/button18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="숫자"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_round_button"
+            android:text="숫자" />
     </TableRow>
 
     <TableRow
@@ -190,7 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅊ" />
 
         <Button
@@ -199,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅋ" />
 
         <Button
@@ -208,7 +210,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅌ" />
 
         <Button
@@ -217,7 +219,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅆ" />
 
         <Button
@@ -226,16 +228,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="엔터" />
-            android:text="엔터"
-            android:layout_weight="1" />
 
         <Button
             android:id="@+id/button24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_round_button" />
     </TableRow>
 
     <TableRow>
@@ -246,17 +248,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅍ" />
-
-        <Button
-            android:id="@+id/button30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="@drawable/round_button"
-            android:text="ㅎ" />
 
         <Button
             android:id="@+id/button26"
@@ -264,7 +257,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
+            android:text="ㅎ" />
+
+        <Button
+            android:id="@+id/button27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_round_button"
             android:text="반복" />
 
         <Button
@@ -273,25 +275,24 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/selector_round_button"
             android:text="ㅉ" />
-
-        <Button
-            android:id="@+id/button27"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="@drawable/round_button"
-            android:text="새글" />
-            android:text="새글"
-            android:layout_weight="1" />
 
         <Button
             android:id="@+id/button29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="설정"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_round_button"
+            android:text="새글" />
+        <Button
+            android:id="@+id/button30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_round_button"
+            android:text="설정" />
     </TableRow>
 </TableLayout>
