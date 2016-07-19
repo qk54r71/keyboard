@@ -2,7 +2,6 @@ package com.example.user.myapplication;
 
 import android.content.Context;
 import android.inputmethodservice.InputMethodService;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +20,9 @@ import jxl.read.biff.BiffException;
 
 /**
  * Created by USER on 2016-07-11.
+ * <p/>
+ * 참조
+ * http://here4you.tistory.com/49
  */
 public class CustomKoreanKeyboard extends InputMethodService implements View.OnClickListener {
 
@@ -164,32 +166,46 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
      */
     private void switchDepth(int depth, String strText) {
         InputConnection ic = getCurrentInputConnection();
+
+        String[] strTextArray = null;
+        String switchText = strText;
+
         switch (depth) {
             case DEPTH_FIRST:
-                ic.commitText(strText, 1);
+
                 mDepth++;
+
                 break;
             case DEPTH_SECOND:
+
                 ic.deleteSurroundingText(1, 0);
-                ic.commitText(strText, 1);
+
                 mDepth++;
                 break;
             case DEPTH_THIRD:
+
                 ic.deleteSurroundingText(1, 0);
-                ic.commitText(strText, 1);
+
+                switchText = "first";
+
                 mDepth = 0;
                 break;
         }
+
+        ic.commitText(strText, 1);
+        strTextArray = dbManageMent.serchKey(switchText);
+        setButtonText(strTextArray);
+
     }
 
     /**
-     * 눌리는 버튼에 따라서 키보드의 텍스트 값 변경
+     * 키보드의 텍스트 값 변경 함수
      *
-     * @param strText :  Click Button Text
+     * @param strTextArray :  변경할 문자열 배열
      */
-    private void setButtonText(String strText) {
-        switch (strText) {
-
+    private void setButtonText(String[] strTextArray) {
+        for (int i = 0; i < strTextArray.length; i++) {
+            mButton[i].setText(strTextArray[i]);
         }
     }
 
@@ -214,7 +230,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                     if (sheet != null) {
 
-                        int nMaxColumn = 2;
+                        int nMaxColumn = 26;
                         int nRowStartIndex = 1;
                         int nRowEndIndex = sheet.getColumn(nMaxColumn - 1).length - 1;
                         int nColumnStartIndex = 0;
@@ -222,13 +238,21 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                         dbManageMent.open();
                         for (int nRow = nRowStartIndex; nRow <= nRowEndIndex; nRow++) {
+
                             String text_key = sheet.getCell(nColumnStartIndex, nRow).getContents();
-                            String text_content = sheet.getCell(nColumnStartIndex + 1, nRow).getContents();
+                            String text_content = "";
+
+                            for (int nColumn = nColumnStartIndex + 1; nColumn <= nColumnEndIndex; nColumn++) {
+                                if (nColumn != 1) {
+                                    text_content += ";";
+                                }
+                                text_content += sheet.getCell(nColumn, nRow).getContents();
+                            }
+
                             CommonJava.Loging.i("CustomKey", "text_key : " + text_key + " text_content : " + text_content);
 
                             dbManageMent.createNote(text_key, text_content);
                         }
-                        dbManageMent.close();
 
                     } else {
                         CommonJava.Loging.e("CustomKey", "sheet is null");
@@ -253,4 +277,11 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dbManageMent != null) {
+            dbManageMent.close();
+        }
+    }
 }

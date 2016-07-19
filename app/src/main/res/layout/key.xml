@@ -2,6 +2,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FDB241"
     android:orientation="vertical"
     android:stretchColumns="*">
 
@@ -11,36 +12,46 @@
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㄱ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㄱ" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㄴ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㄴ" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㄷ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㄷ" />
 
         <Button
             android:id="@+id/button4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㄲ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㄲ" />
 
         <Button
             android:id="@+id/button5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="한글"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="한글" />
 
         <Button
             android:id="@+id/button6"
@@ -59,34 +70,46 @@
             android:id="@+id/button7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㄹ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㄹ" />
 
         <Button
             android:id="@+id/button8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅁ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅁ" />
 
         <Button
             android:id="@+id/button9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅂ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅂ" />
 
         <Button
             android:id="@+id/button10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㄸ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㄸ" />
 
         <Button
             android:id="@+id/button11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="공백" />
             android:text="공백"
             android:layout_weight="1" />
 
@@ -106,34 +129,46 @@
             android:id="@+id/button13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅅ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅅ" />
 
         <Button
             android:id="@+id/button14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅇ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅇ" />
 
         <Button
             android:id="@+id/button15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅈ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅈ" />
 
         <Button
             android:id="@+id/button16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅃ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅃ" />
 
         <Button
             android:id="@+id/button17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="삭제" />
             android:text="삭제"
             android:layout_weight="1" />
 
@@ -153,34 +188,46 @@
             android:id="@+id/button19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅊ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅊ" />
 
         <Button
             android:id="@+id/button20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅋ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅋ" />
 
         <Button
             android:id="@+id/button21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅌ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅌ" />
 
         <Button
             android:id="@+id/button22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅆ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅆ" />
 
         <Button
             android:id="@+id/button23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="엔터" />
             android:text="엔터"
             android:layout_weight="1" />
 
@@ -197,34 +244,46 @@
             android:id="@+id/button25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅍ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅍ" />
 
         <Button
             android:id="@+id/button30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅎ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅎ" />
 
         <Button
             android:id="@+id/button26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="반복"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="반복" />
 
         <Button
             android:id="@+id/button28"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㅉ"
-            android:layout_weight="1" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="ㅉ" />
 
         <Button
             android:id="@+id/button27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="새글" />
             android:text="새글"
             android:layout_weight="1" />
 

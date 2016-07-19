@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.example.user.myapplication.Common.CommonJava;
 
@@ -102,5 +101,21 @@ public class DBManageMent {
         return mDb.update(DATABASE_TABLE, args, TEXT_ID + "=" + rowId, null) > 0;
     }
 
+    public String[] serchKey(String text_key) {
+
+        String sqlSelete = "SELECT text_content FROM " + DATABASE_TABLE + " WHERE text_key='" + text_key + "';";
+        String[] resultStringArray = null;
+        String resultString = null;
+        Cursor cursorSelect = mDb.rawQuery(sqlSelete, null);
+
+        cursorSelect.moveToLast();
+        resultString = cursorSelect.getString(0);
+
+        resultStringArray = resultString.split(";");
+
+        cursorSelect.close();
+
+        return resultStringArray;
+    }
 
 }
