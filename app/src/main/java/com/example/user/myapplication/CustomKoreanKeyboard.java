@@ -24,7 +24,7 @@ import jxl.read.biff.BiffException;
  */
 public class CustomKoreanKeyboard extends InputMethodService implements View.OnClickListener {
 
-    private Button[] mButton = new Button[25];
+    private Button[] mButton = new Button[30];
 
     private final String KEYBOARD_CONSONANT = "자음";
     private final String KEYBOARD_PREVIOUS = "이전";
@@ -108,6 +108,11 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         mButton[22] = (Button) view.findViewById(R.id.button23);
         mButton[23] = (Button) view.findViewById(R.id.button24);
         mButton[24] = (Button) view.findViewById(R.id.button25);
+        mButton[25] = (Button) view.findViewById(R.id.button26);
+        mButton[26] = (Button) view.findViewById(R.id.button27);
+        mButton[27] = (Button) view.findViewById(R.id.button28);
+        mButton[28] = (Button) view.findViewById(R.id.button29);
+        mButton[29] = (Button) view.findViewById(R.id.button30);
     }
 
     /**
