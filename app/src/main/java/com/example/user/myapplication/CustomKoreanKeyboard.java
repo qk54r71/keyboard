@@ -2,10 +2,13 @@ package com.example.user.myapplication;
 
 import android.content.Context;
 import android.inputmethodservice.InputMethodService;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
 
@@ -91,6 +94,18 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     private DBManageMent dbManageMent;
 
     /**
+     * 최초 생성시에 엑셀 데이터 DB에 기록
+     */
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        setDB();
+        copyExcelDataToDatabase();
+
+    }
+
+    /**
      * TableLayout 을 사용한 CustomKeyboard 화면을 Match 시킨다.
      *
      * @return Custom된 화면
@@ -103,8 +118,6 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
         setFindView(view);
         setOnClick();
-        setDB();
-        copyExcelDataToDatabase();
 
         init();
 
@@ -120,7 +133,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         mCurrentStrTextArray = null;
 
         setBtnColor(mDepth);
-        String[] initStrArray = dbManageMent.serchKey("first");
+        String[] initStrArray = dbManageMent.serchKey(KOREA_KOREA);
         setButtonText(initStrArray);
 
     }
@@ -199,7 +212,12 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
                 break;
             case KOREA_DONE: // 엔터
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+
+                ic.performEditorAction(EditorInfo.IME_ACTION_GO);
+                //ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH); 적용됨
+                //ic.performEditorAction(EditorInfo.IME_ACTION_SEND); 적용됨
+
+                //ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER)); // 적용안됨
                 break;
             case KOREA_SPACE: // 공백
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SPACE));
@@ -230,6 +248,27 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                 mPreDepth = DEPTH_SECOND;
                 init();
+
+                break;
+            case KOREA_KOREA: // 한글
+
+                mDepth = DEPTH_FIRST;
+                mCurrentStrText = null;
+                mCurrentStrTextArray = null;
+
+                setBtnColor(mDepth);
+                String[] initStrArray = dbManageMent.serchKey(KOREA_KOREA);
+                setButtonText(initStrArray);
+
+                break;
+            case KOREA_ENG:
+                mDepth = DEPTH_FIRST;
+                mCurrentStrText = null;
+                mCurrentStrTextArray = null;
+
+                setBtnColor(mDepth);
+                String[] initEngStrArray = dbManageMent.serchKey(KOREA_ENG);
+                setButtonText(initEngStrArray);
 
                 break;
             default:
@@ -283,7 +322,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
             case DEPTH_THIRD:
 
                 ic.deleteSurroundingText(1, 0);
-                mCurrentStrText = "first";
+                mCurrentStrText = KOREA_KOREA;
                 mDepth = 0;
 
                 break;
@@ -292,7 +331,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         ic.commitText(strText, 1);
 
         if (mCurrentStrTextArray == null) {
-            mPreStrTextArray = dbManageMent.serchKey("first");
+            mPreStrTextArray = dbManageMent.serchKey(KOREA_KOREA);
         } else {
             mSaveStrTextArray = mPreStrTextArray;
             mPreStrTextArray = mCurrentStrTextArray;
@@ -467,6 +506,9 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
     }
 
+    /**
+     * 서비스 죽을 시에 db권한 종료
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
