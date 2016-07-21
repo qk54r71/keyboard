@@ -8,7 +8,7 @@ import android.util.Log;
  */
 public class CommonJava {
     public static class Loging {
-        public static Boolean logingCheck = true;
+        public static Boolean logingCheck = false;
 
 
         public static void i(String className, String strContent) {

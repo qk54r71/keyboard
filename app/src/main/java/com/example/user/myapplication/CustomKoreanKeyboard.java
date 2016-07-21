@@ -2,8 +2,6 @@ package com.example.user.myapplication;
 
 import android.content.Context;
 import android.inputmethodservice.InputMethodService;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -45,23 +43,36 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     private final String KOREA_SIGN = "기호";
     private final String KOREA_ENG = "영어";
     private final String KOREA_NUM = "숫자";
+    private final String KOREA_NULL = "";
 
     /**
      * 단계
      * <p/>
-     * DEPTH_FIRST = 0
+     * DEPTH_KOR_FIRST = 0
      * 한글 : 자음
      * <p/>
-     * DEPTH_SECOND = 1
-     * 한글 : 자음 + 모음 ,영어 : 대문자(한번만)
+     * DEPTH_KOR_SECOND = 1
+     * 한글 : 자음 + 모음
      * <p/>
-     * DEPTH_THIRD = 2
-     * 한글 : 자음 + 모음 + 받침 ,영어 : 대문자 (상시)
+     * DEPTH_KOR_THIRD = 2
+     * 한글 : 자음 + 모음 + 받침
+     * <p/>
+     * DEPTH_ENG_LOWER = 10
+     * 영어 : 소문자
+     * <p/>
+     * DEPTH_ENG_UPPER_ONCE = 11;
+     * 영어 : 대문자 (한번만)
+     * <p/>
+     * DEPTH_ENG_UPPER_ALWAYS = 12
+     * 영어 : 대문자 (항상)
      */
     private int mDepth;
-    private final int DEPTH_FIRST = 0;
-    private final int DEPTH_SECOND = 1;
-    private final int DEPTH_THIRD = 2;
+    private final int DEPTH_KOR_FIRST = 0;
+    private final int DEPTH_KOR_SECOND = 1;
+    private final int DEPTH_KOR_THIRD = 2;
+    private final int DEPTH_ENG_LOWER = 10;
+    private final int DEPTH_ENG_UPPER_ONCE = 11;
+    private final int DEPTH_ENG_UPPER_ALWAYS = 12;
 
     /**
      * 현재 상태를 기록하는 변수
@@ -84,6 +95,11 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     private String[] mSaveStrTextArray;
 
     /**
+     * 한글의 자음을 저장하고 있는 변수
+     */
+    private String mKorConsonant;
+
+    /**
      * 모드
      */
     private String mode;
@@ -91,7 +107,8 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     private final String ENGLISH_KEY = "english_key";
     private final String CHINA_KEY = "china_key";
 
-    private DBManageMent dbManageMent;
+    //private DBManageMent dbManageMent;
+    private ExcelManageMent excelManageMent;
 
     /**
      * 최초 생성시에 엑셀 데이터 DB에 기록
@@ -100,8 +117,10 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     public void onCreate() {
         super.onCreate();
 
-        setDB();
-        copyExcelDataToDatabase();
+        //setDB();
+        //copyExcelDataToDatabase();
+        //copyXmlDataToDatabase();
+        excelManageMent = new ExcelManageMent(getApplicationContext());
 
     }
 
@@ -128,12 +147,13 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
      * 값 초기화
      */
     private void init() {
-        mDepth = DEPTH_FIRST;
+        mDepth = DEPTH_KOR_FIRST;
         mCurrentStrText = null;
         mCurrentStrTextArray = null;
 
         setBtnColor(mDepth);
-        String[] initStrArray = dbManageMent.serchKey(KOREA_KOREA);
+        //String[] initStrArray = dbManageMent.serchKey(KOREA_KOREA);
+        String[] initStrArray = excelManageMent.searchData(KOREA_KOREA);
         setButtonText(initStrArray);
 
     }
@@ -142,7 +162,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
      * Custom 한 DB 생성
      */
     private void setDB() {
-        dbManageMent = new DBManageMent(CustomKoreanKeyboard.this);
+        //dbManageMent = new DBManageMent(CustomKoreanKeyboard.this);
     }
 
     /**
@@ -209,8 +229,10 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
         switch (strSwitch) {
             case KOREA_DELETE: // 삭제
+
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
                 break;
+
             case KOREA_DONE: // 엔터
 
                 ic.performEditorAction(EditorInfo.IME_ACTION_GO);
@@ -219,10 +241,14 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                 //ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER)); // 적용안됨
                 break;
+
             case KOREA_SPACE: // 공백
+
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SPACE));
                 break;
+
             case KOREA_PREVIOUS: // 이전
+
                 CommonJava.Loging.i("CustomKey", "KOREA_PREVIOUS");
 
                 setBtnColor(mPreDepth);
@@ -242,42 +268,69 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                 CommonJava.Loging.i("CustomKey", "mPreDepth : " + mPreDepth);
                 CommonJava.Loging.i("CustomKey", "mPreStrTextArray : " + mPreStrTextArray[1]);
-
                 break;
+
             case KOREA_FIRST: // 처음
 
-                mPreDepth = DEPTH_SECOND;
+                mPreDepth = DEPTH_KOR_SECOND;
                 init();
-
                 break;
+
             case KOREA_KOREA: // 한글
 
-                mDepth = DEPTH_FIRST;
-                mCurrentStrText = null;
-                mCurrentStrTextArray = null;
+                mPreDepth = DEPTH_KOR_FIRST;
+                init();
+                break;
 
-                setBtnColor(mDepth);
-                String[] initStrArray = dbManageMent.serchKey(KOREA_KOREA);
-                setButtonText(initStrArray);
+            case KOREA_CONSONANT: // 자음
+
+                mPreDepth = DEPTH_KOR_FIRST;
+                init();
+
+                ic.deleteSurroundingText(1, 0);
+                ic.commitText(mKorConsonant, 1);
+                mKorConsonant = null;
+                break;
+            case KOREA_NEWINPUT: // 새글
 
                 break;
-            case KOREA_ENG:
-                mDepth = DEPTH_FIRST;
+
+            case KOREA_ENG: // 영어
+                mDepth = DEPTH_ENG_LOWER;
                 mCurrentStrText = null;
                 mCurrentStrTextArray = null;
 
                 setBtnColor(mDepth);
-                String[] initEngStrArray = dbManageMent.serchKey(KOREA_ENG);
+                //String[] initEngStrArray = dbManageMent.serchKey(KOREA_ENG);
+                String[] initEngStrArray = excelManageMent.searchData(KOREA_ENG);
                 setButtonText(initEngStrArray);
+                break;
+
+            case KOREA_REPEAT: // 반복
+
+                CharSequence preChar = ic.getTextBeforeCursor(1, InputConnection.GET_TEXT_WITH_STYLES);
+                ic.commitText(preChar, 1);
 
                 break;
+
+            case KOREA_NULL: // 널 문자
+                break;
+
             default:
                 CommonJava.Loging.i("CustomKey", "Test : " + ((Button) view).getText());
 
                 CharSequence charText = ((Button) view).getText();
                 String strText = String.valueOf(charText.charAt(0));
 
-                switchDepth(mDepth, strText);
+                try {
+                    switchDepth(mDepth, strText);
+                } catch (IndexOutOfBoundsException e) { // db안에 데이터가 없는 경우, 2번째 스텝에서 입력값이 끝나는 경우이다.
+
+                    mPreDepth = DEPTH_KOR_FIRST;
+                    ic.deleteSurroundingText(1, 0);
+                    ic.commitText(strText, 1);
+                    init();
+                }
         }
     }
 
@@ -294,7 +347,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         InputConnection ic = getCurrentInputConnection();
 
         if (mCurrentStrText == null) {
-            mPreStrText = "first";
+            mPreStrText = "한글";
         } else {
             mSaveStrText = mPreStrText;
             mPreStrText = mCurrentStrText;
@@ -304,22 +357,26 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         mPreDepth = mDepth;
 
         switch (depth) {
-            case DEPTH_FIRST:
+            case DEPTH_KOR_FIRST:
 
-                if (mSaveDepth == DEPTH_SECOND) {
+                if (mSaveDepth == DEPTH_KOR_SECOND) {
                     ic.deleteSurroundingText(1, 0);
+                }
+
+                if (mKorConsonant == null) {
+                    mKorConsonant = strText;
                 }
 
                 mDepth++;
 
                 break;
-            case DEPTH_SECOND:
+            case DEPTH_KOR_SECOND:
 
                 ic.deleteSurroundingText(1, 0);
                 mDepth++;
 
                 break;
-            case DEPTH_THIRD:
+            case DEPTH_KOR_THIRD:
 
                 ic.deleteSurroundingText(1, 0);
                 mCurrentStrText = KOREA_KOREA;
@@ -331,12 +388,14 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         ic.commitText(strText, 1);
 
         if (mCurrentStrTextArray == null) {
-            mPreStrTextArray = dbManageMent.serchKey(KOREA_KOREA);
+            //mPreStrTextArray = dbManageMent.serchKey(KOREA_KOREA);
+            mPreStrTextArray = excelManageMent.searchData(KOREA_KOREA);
         } else {
             mSaveStrTextArray = mPreStrTextArray;
             mPreStrTextArray = mCurrentStrTextArray;
         }
-        mCurrentStrTextArray = dbManageMent.serchKey(mCurrentStrText);
+        //mCurrentStrTextArray = dbManageMent.serchKey(mCurrentStrText);
+        mCurrentStrTextArray = excelManageMent.searchData(mCurrentStrText);
 
         setBtnColor(mDepth);
         setButtonText(mCurrentStrTextArray);
@@ -354,7 +413,22 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
      */
     private void setButtonText(String[] strTextArray) {
         for (int i = 0; i < strTextArray.length; i++) {
-            mButton[i].setText(strTextArray[i]);
+
+            String setBtnTxt = null;
+
+            switch (mDepth) {
+                case DEPTH_ENG_LOWER:
+                    setBtnTxt = strTextArray[i].toLowerCase();
+                    break;
+                case DEPTH_ENG_UPPER_ALWAYS:
+                case DEPTH_ENG_UPPER_ONCE:
+                    setBtnTxt = strTextArray[i].toUpperCase();
+                    break;
+                default:
+                    setBtnTxt = strTextArray[i];
+            }
+
+            mButton[i].setText(setBtnTxt);
         }
     }
 
@@ -375,7 +449,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         }
 
         switch (currentDepth) {
-            case DEPTH_FIRST:
+            case DEPTH_KOR_FIRST:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     mButton[4].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                     mButton[5].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
@@ -389,7 +463,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     mButton[29].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                 }
                 break;
-            case DEPTH_SECOND:
+            case DEPTH_KOR_SECOND:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     mButton[4].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                     mButton[5].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
@@ -414,7 +488,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     mButton[27].setBackground(getResources().getDrawable(R.drawable.selector_round_button_support));
                 }
                 break;
-            case DEPTH_THIRD:
+            case DEPTH_KOR_THIRD:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     mButton[4].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                     mButton[5].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
@@ -465,7 +539,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                         int nColumnStartIndex = 0;
                         int nColumnEndIndex = sheet.getRow(2).length - 1;
 
-                        dbManageMent.open();
+                        //dbManageMent.open();
                         for (int nRow = nRowStartIndex; nRow <= nRowEndIndex; nRow++) {
 
                             String text_key = sheet.getCell(nColumnStartIndex, nRow).getContents();
@@ -480,7 +554,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                             CommonJava.Loging.i("CustomKey", "text_key : " + text_key + " text_content : " + text_content);
 
-                            dbManageMent.createNote(text_key, text_content);
+                            //dbManageMent.createNote(text_key, text_content);
                         }
 
                     } else {
@@ -507,13 +581,37 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     }
 
     /**
+     * xml의 데이터를 DB로 옮기는 함수
+     *
+     * 2016-07-21 사용안함
+     * 엑셀 데이터 -> db 옮기면 시간이 오래걸림
+     * 엑셀에서 바로 읽는 방식으로 변경
+     *//*
+    private void copyXmlDataToDatabase() {
+
+        CommonJava.Loging.i("CustomKey", "copyXmlDataToDatabase()");
+        //dbManageMent.open();
+        String[] key = getResources().getStringArray(R.array.key);
+
+        String[] key_name_array = key[0].split(";");
+
+        int i = 1;
+        for (String key_name : key_name_array) {
+            String key_content = key[i++];
+            //CommonJava.Loging.i("CustomKey", "key_name : " + key_name + " key_content : " + key_content);
+            //dbManageMent.createNote(key_name, key_content);
+        }
+
+    }*/
+
+    /**
      * 서비스 죽을 시에 db권한 종료
      */
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dbManageMent != null) {
+       /* if (dbManageMent != null) {
             dbManageMent.close();
-        }
+        }*/
     }
 }
