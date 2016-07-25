@@ -69,6 +69,9 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
      * <p/>
      * DEPTH_ENG_UPPER_ALWAYS = 12
      * 영어 : 대문자 (항상)
+     * <p/>
+     * DEPTH_NUM = 20
+     * 숫자
      */
     private int mDepth;
     private final int DEPTH_KOR_FIRST = 0;
@@ -76,6 +79,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     private final int DEPTH_KOR_THIRD = 2;
     private final int DEPTH_ENG_LOWER = 10;
     private final int DEPTH_ENG_UPPER = 11;
+    private final int DEPTH_NUM = 20;
 
     /**
      * 현재 상태를 기록하는 변수
@@ -325,7 +329,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                 setButtonText(initEngStrArray);
                 break;
 
-            case KOREA_ENG_UPPER:
+            case KOREA_ENG_UPPER: // 영어 대문자
 
                 mDepth = DEPTH_ENG_UPPER;
 
@@ -336,7 +340,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                 setButtonText(initEngUpperStrArray);
 
                 break;
-            case KOREA_ENG_LOWER:
+            case KOREA_ENG_LOWER: // 영어 소문자
 
                 mDepth = DEPTH_ENG_LOWER;
 
@@ -346,6 +350,20 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                 String[] initEngLowerStrArray = excelManageMent.searchData(KOREA_ENG_LOWER);
                 setButtonText(initEngLowerStrArray);
 
+
+                break;
+
+            case KOREA_NUM: // 숫자
+
+                setBtnTextColor((Button) view);
+                mDepth = DEPTH_NUM;
+                mCurrentStrText = null;
+                mCurrentStrTextArray = null;
+
+                setBtnColor(mDepth);
+                setBtnTextSize(mDepth);
+                String[] initNumStrArray = excelManageMent.searchData(KOREA_NUM);
+                setButtonText(initNumStrArray);
 
                 break;
 
@@ -368,6 +386,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     case DEPTH_KOR_FIRST:
                     case DEPTH_KOR_SECOND:
                     case DEPTH_KOR_THIRD:
+
                         try {
                             switchDepth(mDepth, strText);
                         } catch (IndexOutOfBoundsException e) { // db안에 데이터가 없는 경우, 2번째 스텝에서 입력값이 끝나는 경우이다.
@@ -380,6 +399,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                         break;
                     case DEPTH_ENG_LOWER:
                     case DEPTH_ENG_UPPER:
+                    case DEPTH_NUM:
                         ic.commitText(strText, 1);
                         break;
                 }
@@ -411,10 +431,6 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         switch (depth) {
             case DEPTH_KOR_FIRST:
 
-                if (mSaveDepth == DEPTH_KOR_SECOND) {
-                    ic.deleteSurroundingText(1, 0);
-                }
-
                 if (mKorConsonant == null) {
                     mKorConsonant = strText;
                 }
@@ -424,20 +440,17 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                 break;
             case DEPTH_KOR_SECOND:
 
-                ic.deleteSurroundingText(1, 0);
                 mDepth++;
 
                 break;
             case DEPTH_KOR_THIRD:
 
-                ic.deleteSurroundingText(1, 0);
                 mCurrentStrText = KOREA_KOREA;
                 mDepth = 0;
+                ic.commitText(strText, 1);
 
                 break;
         }
-
-        ic.commitText(strText, 1);
 
         if (mCurrentStrTextArray == null) {
             //mPreStrTextArray = dbManageMent.serchKey(KOREA_KOREA);
@@ -451,6 +464,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
         setBtnColor(mDepth);
         setButtonText(mCurrentStrTextArray);
+        setBtnTextSize(mDepth);
 
         CommonJava.Loging.i("CustomKey", "mPreDepth : " + mPreDepth);
         CommonJava.Loging.i("CustomKey", "mPreStrText : " + mPreStrText);
@@ -507,56 +521,59 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         CommonJava.Loging.i("CustomKey", "currentDepth : " + currentDepth);
 
 
-        int setTextSize = 23;
-
+        int setInitTextSize = 23; // 기본 사이즈
+        int setFuncTextSize = 18;
 
         for (Button nBtn : mButton) {
-            nBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+            nBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, setInitTextSize);
         }
 
         switch (currentDepth) {
             case DEPTH_KOR_FIRST:
-                mButton[4].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[10].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[16].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[22].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[28].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[29].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
+                mButton[4].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[10].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[16].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[22].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[28].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[29].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
 
                 break;
             case DEPTH_KOR_SECOND:
-                mButton[4].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[10].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[28].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[29].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
+                mButton[4].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[10].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[28].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[29].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
 
                 break;
             case DEPTH_KOR_THIRD:
-                mButton[4].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[10].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[28].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[29].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
+                mButton[4].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[10].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[28].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[29].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+
+                mButton[16].setTextSize(TypedValue.COMPLEX_UNIT_SP, setInitTextSize);
+                mButton[22].setTextSize(TypedValue.COMPLEX_UNIT_SP, setInitTextSize);
 
                 break;
             case DEPTH_ENG_LOWER:
-                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
-                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setTextSize);
+                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, 23); // 영어 대소문자를 구분하기 위한 화살표
+                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
 
-
+                break;
         }
 
     }
