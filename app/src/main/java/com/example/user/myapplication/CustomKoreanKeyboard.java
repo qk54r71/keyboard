@@ -36,18 +36,24 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     private final String KOREA_PREVIOUS = "이전";
     private final String KOREA_NEWINPUT = "새글";
     private final String KOREA_SETTING = "설정";
-    private final String KOREA_ENG_UPPER = "↑";
-    private final String KOREA_ENG_LOWER = "↓";
     private final String KOREA_DELETE = "삭제";
     private final String KOREA_REPEAT = "반복";
     private final String KOREA_SPACE = "공백";
     private final String KOREA_KOREA = "한글";
     private final String KOREA_FIRST = "처음";
     private final String KOREA_DONE = "엔터";
-    private final String KOREA_SIGN = "기호";
-    private final String KOREA_ENG = "영어";
     private final String KOREA_NUM = "숫자";
     private final String KOREA_NULL = "";
+
+    private final String KOREA_ENG = "영어";
+    private final String KOREA_ENG_UPPER = "↑";
+    private final String KOREA_ENG_LOWER = "↓";
+
+    private final String KOREA_SIGN = "기호";
+    private final String KOREA_SIGN_FIRST = "3/3"; // 입력 순서가 약간 엉킴
+    private final String KOREA_SIGN_SECOND = "1/3"; // 입력 순서가 약간 엉킴
+    private final String KOREA_SIGN_THIRD = "2/3"; // 입력 순서가 약간 엉킴
+
 
     /**
      * 단계
@@ -72,6 +78,18 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
      * <p/>
      * DEPTH_NUM = 20
      * 숫자
+     * <p/>
+     * DEPTH_SIGN = 30
+     * 특수기호 (첫화면)
+     * <p/>
+     * DEPTH_SIGN_FIRST = 31
+     * 특수기호 (두번째 화면)
+     * <p/>
+     * DEPTH_SIGN_SECOND = 32
+     * 특수기호 (세번째 화면)
+     * <p/>
+     * DEPTH_SIGN_THIRD = 33
+     * 특수기호 (첫번째 화면)
      */
     private int mDepth;
     private final int DEPTH_KOR_FIRST = 0;
@@ -80,6 +98,11 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     private final int DEPTH_ENG_LOWER = 10;
     private final int DEPTH_ENG_UPPER = 11;
     private final int DEPTH_NUM = 20;
+    private final int DEPTH_SIGN = 30;
+    private final int DEPTH_SIGN_FIRST = 31;
+    private final int DEPTH_SIGN_SECOND = 32;
+    private final int DEPTH_SIGN_THIRD = 33;
+
 
     /**
      * 현재 상태를 기록하는 변수
@@ -367,6 +390,51 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                 break;
 
+            case KOREA_SIGN: // 기호
+
+                setBtnTextColor((Button) view);
+                mDepth = DEPTH_SIGN;
+                mCurrentStrText = null;
+                mCurrentStrTextArray = null;
+
+                setBtnColor(mDepth);
+                setBtnTextSize(mDepth);
+                String[] initSignStrArray = excelManageMent.searchData(KOREA_SIGN);
+                setButtonText(initSignStrArray);
+
+                break;
+
+            case KOREA_SIGN_FIRST: // 1/3 이 눌렸을 때
+
+                mDepth = DEPTH_SIGN_FIRST;
+
+                setBtnColor(mDepth);
+                setBtnTextSize(mDepth);
+                String[] initSignFirstStrArray = excelManageMent.searchData(KOREA_SIGN_FIRST);
+                setButtonText(initSignFirstStrArray);
+
+                break;
+            case KOREA_SIGN_SECOND: // 2/3 이 눌렸을 때
+
+                mDepth = DEPTH_SIGN_SECOND;
+
+                setBtnColor(mDepth);
+                setBtnTextSize(mDepth);
+                String[] initSignSecondStrArray = excelManageMent.searchData(KOREA_SIGN_SECOND);
+                setButtonText(initSignSecondStrArray);
+
+                break;
+            case KOREA_SIGN_THIRD: // 3/3 이 눌렸을 때
+
+                mDepth = DEPTH_SIGN_THIRD;
+
+                setBtnColor(mDepth);
+                setBtnTextSize(mDepth);
+                String[] initSignThirdStrArray = excelManageMent.searchData(KOREA_SIGN_THIRD);
+                setButtonText(initSignThirdStrArray);
+
+                break;
+
             case KOREA_REPEAT: // 반복
 
                 CharSequence preChar = ic.getTextBeforeCursor(1, InputConnection.GET_TEXT_WITH_STYLES);
@@ -400,6 +468,10 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     case DEPTH_ENG_LOWER:
                     case DEPTH_ENG_UPPER:
                     case DEPTH_NUM:
+                    case DEPTH_SIGN:
+                    case DEPTH_SIGN_FIRST:
+                    case DEPTH_SIGN_SECOND:
+                    case DEPTH_SIGN_THIRD:
                         ic.commitText(strText, 1);
                         break;
                 }
@@ -407,7 +479,7 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
     }
 
     /**
-     * mDepth 값에 따른 이벤트 switch
+     * mDepth 값에 따른 한글 이벤트 switch
      *
      * @param depth
      */
@@ -574,6 +646,31 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                 mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
 
                 break;
+            case DEPTH_NUM:
+                mButton[4].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[10].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[16].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[29].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+
+                break;
+            case DEPTH_SIGN:
+            case DEPTH_SIGN_FIRST:
+            case DEPTH_SIGN_SECOND:
+            case DEPTH_SIGN_THIRD:
+
+                mButton[4].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[5].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[10].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[11].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[16].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[17].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[23].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+                mButton[29].setTextSize(TypedValue.COMPLEX_UNIT_SP, setFuncTextSize);
+
         }
 
     }
@@ -679,6 +776,40 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     mButton[17].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                     mButton[23].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                 }
+                break;
+            case DEPTH_NUM:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mButton[4].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[5].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[10].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[11].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[16].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[17].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[22].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[23].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[28].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[29].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                }
+
+                break;
+            case DEPTH_SIGN:
+            case DEPTH_SIGN_FIRST:
+            case DEPTH_SIGN_SECOND:
+            case DEPTH_SIGN_THIRD:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mButton[4].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[5].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[10].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[11].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[16].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[17].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[22].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[23].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[28].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                    mButton[29].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
+                }
+
+                break;
 
         }
     }
