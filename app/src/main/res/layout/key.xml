@@ -22,6 +22,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㄱ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -33,6 +34,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㄴ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -44,6 +46,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㄷ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -55,6 +58,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㄲ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -66,6 +70,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="한글"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -77,6 +82,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="영어"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -100,6 +106,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㄹ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -111,6 +118,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅁ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -122,6 +130,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅂ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -133,6 +142,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㄸ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -144,6 +154,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="공백"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -155,6 +166,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="기호"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
         </LinearLayout>
@@ -176,6 +188,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅅ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -187,6 +200,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅇ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -198,6 +212,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅈ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -209,6 +224,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅃ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -220,6 +236,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="삭제"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -231,6 +248,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="숫자"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
         </LinearLayout>
@@ -252,6 +270,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅊ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -263,6 +282,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅋ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -274,6 +294,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅌ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -285,6 +306,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅆ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -296,6 +318,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="엔터"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -307,6 +330,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:textAllCaps="false"
+                android:gravity="center"
                 android:textSize="23sp" />
         </LinearLayout>
     </TableRow>
@@ -327,6 +351,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅍ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -338,6 +363,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅎ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -349,6 +375,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="반복"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -360,6 +387,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="ㅉ"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -371,6 +399,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="새글"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
 
@@ -382,6 +411,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_round_button"
                 android:text="설정"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textSize="23sp" />
         </LinearLayout>

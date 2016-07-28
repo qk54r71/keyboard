@@ -2,5 +2,5 @@
 <input-method xmlns:android="http://schemas.android.com/apk/res/android">
 <subtype
     android:imeSubtypeLocale="Korea"
-    android:imeSubtypeMode="Keyboard"/>
+    android:imeSubtypeMode="위대한글"/>
 </input-method>
