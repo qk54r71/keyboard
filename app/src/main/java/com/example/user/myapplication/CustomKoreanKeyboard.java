@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.user.myapplication.Common.CommonJava;
 
@@ -343,9 +344,16 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                 case KOREA_KOREA: // 한글
 
-                    setBtnTextColor((Button) view);
-                    setBtnTextSize(mDepth);
-                    init();
+                    Button currentPressKoreaBtn = (Button) view;
+
+                    mDepth = DEPTH_KOR_FIRST;
+
+                    mCurrentStrText = null;
+                    mCurrentStrTextArray = null;
+
+                    String[] initKoreaStrArray = excelManageMent.searchData(KOREA_KOREA);
+                    setLayout(currentPressKoreaBtn, mDepth, initKoreaStrArray);
+
                     break;
 
                 case KOREA_CONSONANT: // 자음
@@ -362,77 +370,69 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                 case KOREA_ENG: // 영어
 
-                    setBtnTextColor((Button) view);
+                    Button currentPressEngBtn = (Button) view;
+
                     mDepth = DEPTH_ENG_LOWER;
+
                     mCurrentStrText = null;
                     mCurrentStrTextArray = null;
 
-                    setENG_LOWER();
-
-                    setBtnColor(mDepth);
-                    setBtnTextSize(mDepth);
-                    //String[] initEngStrArray = dbManageMent.serchKey(KOREA_ENG);
                     String[] initEngStrArray = excelManageMent.searchData(KOREA_ENG);
-                    setButtonText(initEngStrArray);
-                    setEnableBtn();
+
+                    setLayout(currentPressEngBtn, mDepth, initEngStrArray);
                     break;
 
                 case KOREA_ENG_UPPER: // 영어 대문자
 
                     mDepth = DEPTH_ENG_UPPER;
 
-                    setBtnTextColor((Button) view);
-                    setENG_UPPER();
+                    Button currentPressEngUpperBtn = (Button) view;
 
                     String[] initEngUpperStrArray = excelManageMent.searchData(KOREA_ENG_UPPER);
-                    setButtonText(initEngUpperStrArray);
-                    setEnableBtn();
+
+                    setLayout(currentPressEngUpperBtn, mDepth, initEngUpperStrArray);
 
                     break;
                 case KOREA_ENG_LOWER: // 영어 소문자
 
                     mDepth = DEPTH_ENG_LOWER;
 
-                    setBtnTextColor((Button) view);
-                    setENG_LOWER();
+                    Button currentPressEngLowerBtn = (Button) view;
 
                     String[] initEngLowerStrArray = excelManageMent.searchData(KOREA_ENG_LOWER);
-                    setButtonText(initEngLowerStrArray);
-                    setEnableBtn();
+
+                    setLayout(currentPressEngLowerBtn, mDepth, initEngLowerStrArray);
 
 
                     break;
 
                 case KOREA_NUM: // 숫자
 
-                    setBtnTextColor((Button) view);
+                    Button currentPressNumBtn = (Button) view;
                     mDepth = DEPTH_NUM;
                     mCurrentStrText = null;
                     mCurrentStrTextArray = null;
 
-                    setBtnColor(mDepth);
-                    setBtnTextSize(mDepth);
                     String[] initNumStrArray = excelManageMent.searchData(KOREA_NUM);
-                    setButtonText(initNumStrArray);
-                    setEnableBtn();
+
+                    setLayout(currentPressNumBtn, mDepth, initNumStrArray);
+
 
                     break;
 
                 case KOREA_SIGN: // 기호
 
-                    setBtnTextColor((Button) view);
+                    Button currentPressSignBtn = (Button) view;
                     mDepth = DEPTH_SIGN;
                     mCurrentStrText = null;
                     mCurrentStrTextArray = null;
-
-                    setBtnColor(mDepth);
-                    setBtnTextSize(mDepth);
                     String[] initSignStrArray = excelManageMent.searchData(KOREA_SIGN);
-                    setButtonText(initSignStrArray);
-                    setEnableBtn();
+
+                    setLayout(currentPressSignBtn, mDepth, initSignStrArray);
 
                     break;
 
+                /* 사용안함 2016-08-02 :: 기호 화면 하나로 통일
                 case KOREA_SIGN_FIRST: // 1/3 이 눌렸을 때
 
                     mDepth = DEPTH_SIGN_FIRST;
@@ -443,7 +443,8 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     setButtonText(initSignFirstStrArray);
                     setEnableBtn();
 
-                    break;
+                    break;*/
+                /* 사용안함 2016-08-02 :: 기호 화면 하나로 통일
                 case KOREA_SIGN_SECOND: // 2/3 이 눌렸을 때
 
                     mDepth = DEPTH_SIGN_SECOND;
@@ -454,7 +455,8 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     setButtonText(initSignSecondStrArray);
                     setEnableBtn();
 
-                    break;
+                    break;*/
+                /* 사용안함 2016-08-02 :: 기호 화면 하나로 통일
                 case KOREA_SIGN_THIRD: // 3/3 이 눌렸을 때
 
                     mDepth = DEPTH_SIGN_THIRD;
@@ -465,7 +467,8 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     setButtonText(initSignThirdStrArray);
                     setEnableBtn();
 
-                    break;
+
+                    break;*/
 
                 case KOREA_REPEAT: // 반복
 
@@ -475,6 +478,9 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                     break;
 
                 case KOREA_NULL: // 널 문자
+                    break;
+
+                case KOREA_SETTING: // 설정
                     break;
 
                 default:
@@ -714,14 +720,41 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         //mCurrentStrTextArray = dbManageMent.serchKey(mCurrentStrText);
         mCurrentStrTextArray = excelManageMent.searchData(mCurrentStrText);
 
-        setBtnColor(mDepth);
-        setButtonText(mCurrentStrTextArray);
-        setBtnTextSize(mDepth);
-        setEnableBtn();
+        setLayout(null, mDepth, mCurrentStrTextArray);
 
         CommonJava.Loging.i("CustomKey", "mPreDepth : " + mPreDepth);
         CommonJava.Loging.i("CustomKey", "mPreStrText : " + mPreStrText);
         CommonJava.Loging.i("CustomKey", "mPreStrTextArray : " + mPreStrTextArray);
+
+    }
+
+    /**
+     * 화면 구성을 위한 총괄 함수
+     *
+     * @param currentBtn   : 현재 눌려진 상태의 버튼
+     * @param depth        : 현재의 depth
+     * @param strTextArray : 적용할 텍스트 배열
+     */
+    private void setLayout(Button currentBtn, int depth, String[] strTextArray) {
+
+        if (currentBtn != null) {
+            setBtnTextColor(currentBtn);
+        }
+
+        switch (depth) {
+            case DEPTH_ENG_UPPER:
+                setENG_UPPER();
+                break;
+            case DEPTH_ENG_LOWER:
+                setENG_LOWER();
+                break;
+        }
+
+        setBtnColor(depth);
+        setButtonText(strTextArray);
+        setBtnTextSize(depth);
+        setEnableBtn();
+        setLayoutColumn(depth);
 
     }
 
@@ -734,7 +767,6 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
         for (int i = 0; i < strTextArray.length; i++) {
 
             String setBtnTxt = null;
-
             switch (mDepth) {
                 case DEPTH_ENG_LOWER:
                     setBtnTxt = strTextArray[i].toLowerCase();
@@ -742,10 +774,10 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
                 case DEPTH_ENG_UPPER:
                     setBtnTxt = strTextArray[i].toUpperCase();
                     break;
+
                 default:
                     setBtnTxt = strTextArray[i];
             }
-
             mButton[i].setText(setBtnTxt);
         }
     }
@@ -999,23 +1031,45 @@ public class CustomKoreanKeyboard extends InputMethodService implements View.OnC
 
                 break;
             case DEPTH_SIGN:
+                /* 사용안함 2016-08-02 :: 기호 화면 하나로 통일
             case DEPTH_SIGN_FIRST:
             case DEPTH_SIGN_SECOND:
-            case DEPTH_SIGN_THIRD:
+            case DEPTH_SIGN_THIRD:*/
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mButton[4].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                     mButton[5].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
-                    mButton[10].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                     mButton[11].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
-                    mButton[16].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                     mButton[17].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
-                    mButton[22].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                     mButton[23].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
-                    mButton[28].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                     mButton[29].setBackground(getResources().getDrawable(R.drawable.selector_round_button_func));
                 }
 
                 break;
+
+        }
+    }
+
+    /**
+     * 현재 화면의 열 개수 조절
+     *
+     * @param currentDepth : 현재 화면의 depth
+     */
+    private void setLayoutColumn(int currentDepth) {
+
+        switch (currentDepth) {
+            case DEPTH_NUM:
+
+                mButton[4].setVisibility(View.GONE);
+                mButton[10].setVisibility(View.GONE);
+                mButton[16].setVisibility(View.GONE);
+                mButton[22].setVisibility(View.GONE);
+                mButton[28].setVisibility(View.GONE);
+
+                break;
+            default:
+
+                for (Button button : mButton) {
+                    button.setVisibility(View.VISIBLE);
+                }
 
         }
     }
